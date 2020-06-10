@@ -6,7 +6,6 @@ import (
 	"strings"
 	"time"
 
-	"cloud.google.com/go/pubsub"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -43,9 +42,6 @@ var (
 			NormalTasksPollPeriod:  1000,
 			DelayedTasksPollPeriod: 500,
 		},
-		GCPPubSub: &GCPPubSubConfig{
-			Client: nil,
-		},
 	}
 
 	reloadDelay = time.Second * 10
@@ -61,7 +57,6 @@ type Config struct {
 	AMQP                    *AMQPConfig      `yaml:"amqp"`
 	SQS                     *SQSConfig       `yaml:"sqs"`
 	Redis                   *RedisConfig     `yaml:"redis"`
-	GCPPubSub               *GCPPubSubConfig `yaml:"-" ignored:"true"`
 	MongoDB                 *MongoDBConfig   `yaml:"-" ignored:"true"`
 	TLSConfig               *tls.Config
 	// NoUnixSignals - when set disables signal handling in machinery
@@ -148,12 +143,6 @@ type RedisConfig struct {
 
 	// MasterName specifies a redis master name in order to configure a sentinel-backed redis FailoverClient
 	MasterName string `yaml:"master_name" envconfig:"REDIS_MASTER_NAME"`
-}
-
-// GCPPubSubConfig wraps GCP PubSub related configuration
-type GCPPubSubConfig struct {
-	Client       *pubsub.Client
-	MaxExtension time.Duration
 }
 
 // MongoDBConfig ...
