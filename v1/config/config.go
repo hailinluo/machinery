@@ -49,19 +49,19 @@ var (
 
 // Config holds all configuration for our program
 type Config struct {
-	Broker                  string           `yaml:"broker" envconfig:"BROKER"`
-	MultipleBrokerSeparator string           `yaml:"multiple_broker_separator" envconfig:"MULTIPLE_BROKEN_SEPARATOR"`
-	DefaultQueue            string           `yaml:"default_queue" envconfig:"DEFAULT_QUEUE"`
-	ResultBackend           string           `yaml:"result_backend" envconfig:"RESULT_BACKEND"`
-	ResultsExpireIn         int              `yaml:"results_expire_in" envconfig:"RESULTS_EXPIRE_IN"`
-	AMQP                    *AMQPConfig      `yaml:"amqp"`
-	SQS                     *SQSConfig       `yaml:"sqs"`
-	Redis                   *RedisConfig     `yaml:"redis"`
+	Broker                  string           `yaml:"broker" envconfig:"BROKER" json:"broker"`
+	MultipleBrokerSeparator string           `yaml:"multiple_broker_separator" envconfig:"MULTIPLE_BROKEN_SEPARATOR" json:"multiple_broker_separator"`
+	DefaultQueue            string           `yaml:"default_queue" envconfig:"DEFAULT_QUEUE" json:"default_queue"`
+	ResultBackend           string           `yaml:"result_backend" envconfig:"RESULT_BACKEND" json:"result_backend"`
+	ResultsExpireIn         int              `yaml:"results_expire_in" envconfig:"RESULTS_EXPIRE_IN" json:"results_expire_in"`
+	AMQP                    *AMQPConfig      `yaml:"amqp" json:"amqp"`
+	SQS                     *SQSConfig       `yaml:"sqs" json:"sqs"`
+	Redis                   *RedisConfig     `yaml:"redis" json:"redis"`
 	MongoDB                 *MongoDBConfig   `yaml:"-" ignored:"true"`
 	TLSConfig               *tls.Config
 	// NoUnixSignals - when set disables signal handling in machinery
-	NoUnixSignals bool            `yaml:"no_unix_signals" envconfig:"NO_UNIX_SIGNALS"`
-	DynamoDB      *DynamoDBConfig `yaml:"dynamodb"`
+	NoUnixSignals bool            `yaml:"no_unix_signals" envconfig:"NO_UNIX_SIGNALS" json:"no_unix_signals"`
+	DynamoDB      *DynamoDBConfig `yaml:"dynamodb" json:"dynamodb"`
 }
 
 // QueueBindingArgs arguments which are used when binding to the exchange
@@ -72,13 +72,13 @@ type QueueDeclareArgs map[string]interface{}
 
 // AMQPConfig wraps RabbitMQ related configuration
 type AMQPConfig struct {
-	Exchange         string           `yaml:"exchange" envconfig:"AMQP_EXCHANGE"`
-	ExchangeType     string           `yaml:"exchange_type" envconfig:"AMQP_EXCHANGE_TYPE"`
-	QueueDeclareArgs QueueDeclareArgs `yaml:"queue_declare_args" envconfig:"AMQP_QUEUE_DECLARE_ARGS"`
-	QueueBindingArgs QueueBindingArgs `yaml:"queue_binding_args" envconfig:"AMQP_QUEUE_BINDING_ARGS"`
-	BindingKey       string           `yaml:"binding_key" envconfig:"AMQP_BINDING_KEY"`
-	PrefetchCount    int              `yaml:"prefetch_count" envconfig:"AMQP_PREFETCH_COUNT"`
-	AutoDelete       bool             `yaml:"auto_delete" envconfig:"AMQP_AUTO_DELETE"`
+	Exchange         string           `yaml:"exchange" envconfig:"AMQP_EXCHANGE" json:"exchange"`
+	ExchangeType     string           `yaml:"exchange_type" envconfig:"AMQP_EXCHANGE_TYPE" json:"exchange_type"`
+	QueueDeclareArgs QueueDeclareArgs `yaml:"queue_declare_args" envconfig:"AMQP_QUEUE_DECLARE_ARGS" json:"queue_declare_args"`
+	QueueBindingArgs QueueBindingArgs `yaml:"queue_binding_args" envconfig:"AMQP_QUEUE_BINDING_ARGS" json:"queue_binding_args"`
+	BindingKey       string           `yaml:"binding_key" envconfig:"AMQP_BINDING_KEY" json:"binding_key"`
+	PrefetchCount    int              `yaml:"prefetch_count" envconfig:"AMQP_PREFETCH_COUNT" json:"prefetch_count"`
+	AutoDelete       bool             `yaml:"auto_delete" envconfig:"AMQP_AUTO_DELETE" json:"auto_delete"`
 }
 
 // DynamoDBConfig wraps DynamoDB related configuration
