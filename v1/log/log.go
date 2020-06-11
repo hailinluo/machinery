@@ -6,8 +6,10 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
-var (
-	rollingLog = &lumberjack.Logger{
+var DEBUG, INFO, WARNING, ERROR, FATAL logging.LoggerInterface
+
+func init() {
+	rollingLog := &lumberjack.Logger{
 		Filename:   GetLogFilePath("machinery"),
 		MaxSize:    0x1000 * 5, // automatic rolling file on it increment than 2GB,
 		MaxBackups: 60,         // reserve last 60 day logs
@@ -15,7 +17,7 @@ var (
 		Compress:   true,
 	}
 
-	logger = logging.New(rollingLog, rollingLog, new(logging.ColouredFormatter))
+	logger := logging.New(rollingLog, rollingLog, new(logging.ColouredFormatter))
 
 	// DEBUG ...
 	DEBUG = logger[logging.DEBUG]
@@ -27,9 +29,7 @@ var (
 	ERROR = logger[logging.ERROR]
 	// FATAL ...
 	FATAL = logger[logging.FATAL]
-)
 
-func init() {
 	cron := cron2.New()
 	err := cron.AddFunc("0 0 23 * * ?", func() {
 		_ = rollingLog.Rotate()
