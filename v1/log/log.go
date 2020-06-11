@@ -6,7 +6,15 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
-var DEBUG, INFO, WARNING, ERROR, FATAL logging.LoggerInterface
+var (
+	logger = logging.New(nil, nil, new(logging.ColouredFormatter))
+
+	INFO    = logger[logging.INFO]
+	WARNING = logger[logging.WARNING]
+	ERROR   = logger[logging.ERROR]
+	FATAL   = logger[logging.FATAL]
+	DEBUG   = logger[logging.DEBUG]
+)
 
 func init() {
 	rollingLog := &lumberjack.Logger{
@@ -17,7 +25,7 @@ func init() {
 		Compress:   true,
 	}
 
-	logger := logging.New(rollingLog, rollingLog, new(logging.ColouredFormatter))
+	logger = logging.New(rollingLog, rollingLog, new(logging.ColouredFormatter))
 
 	// DEBUG ...
 	DEBUG = logger[logging.DEBUG]
