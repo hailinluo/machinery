@@ -1,6 +1,7 @@
 package log
 
 import (
+	"fmt"
 	"github.com/RichardKnop/logging"
 	cron2 "github.com/robfig/cron"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -17,6 +18,7 @@ var (
 )
 
 func init() {
+	fmt.Println("log init...")
 	rollingLog := &lumberjack.Logger{
 		Filename:   GetLogFilePath("machinery"),
 		MaxSize:    0x1000 * 5, // automatic rolling file on it increment than 2GB,
@@ -37,6 +39,12 @@ func init() {
 	ERROR = logger[logging.ERROR]
 	// FATAL ...
 	FATAL = logger[logging.FATAL]
+
+	if INFO == nil {
+		fmt.Println("INFO == nil")
+	} else {
+		fmt.Println("INFO != nil")
+	}
 
 	cron := cron2.New()
 	err := cron.AddFunc("0 0 23 * * ?", func() {
